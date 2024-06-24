@@ -1,0 +1,774 @@
+{
+  "createOrReplace": {
+    "object": {
+      "database": "Flash_Prod_Costo"
+    },
+    "database": {
+      "name": "Flash_Prod_Costo",
+      "compatibilityLevel": 1500,
+      "model": {
+        "name": "Modelo",
+        "culture": "en-US",
+        "dataSources": [
+          {
+            "type": "structured",
+            "name": "SQL/dctdtdb02;PLDW",
+            "connectionDetails": {
+              "protocol": "tds",
+              "address": {
+                "server": "dctdtdb02",
+                "database": "PLDW"
+              },
+              "authentication": null,
+              "query": null
+            },
+            "credential": {
+              "AuthenticationKind": "Windows",
+              "kind": "SQL",
+              "path": "dctdtdb02;PLDW",
+              "Username": "PAPELESLATINOS\\esteban.otero.ext",
+              "EncryptConnection": false
+            }
+          }
+        ],
+        "tables": [
+          {
+            "name": "Calendario",
+            "columns": [
+              {
+                "type": "calculatedTableColumn",
+                "name": "Date",
+                "dataType": "dateTime",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Date]",
+                "formatString": "dd-MMM-yy",
+                "annotations": [
+                  {
+                    "name": "Format",
+                    "value": "<Format Format=\"DateTimeCustom\"><DateTimes><DateTime LCID=\"1033\" Group=\"ShortDate\" FormatString=\"dd-MMM-yy\" /></DateTimes></Format>"
+                  }
+                ]
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Id_Fecha",
+                "dataType": "string",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "sourceColumn": "[Id_Fecha]"
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Año",
+                "dataType": "int64",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Año]",
+                "displayFolder": "Otros",
+                "summarizeBy": "none"
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Mes",
+                "dataType": "int64",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Mes]",
+                "displayFolder": "Otros",
+                "summarizeBy": "none"
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Día",
+                "dataType": "int64",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Día]",
+                "displayFolder": "Otros",
+                "summarizeBy": "none"
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Mes Nombre",
+                "dataType": "string",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Mes Nombre]",
+                "displayFolder": "Otros"
+              },
+              {
+                "type": "calculatedTableColumn",
+                "name": "Período",
+                "dataType": "string",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "sourceColumn": "[Período]"
+              }
+            ],
+            "partitions": [
+              {
+                "name": "CalculatedTable 1",
+                "source": {
+                  "type": "calculated",
+                  "expression": [
+                    "ADDCOLUMNS (",
+                    "CALENDAR ( min(Cabecera_Ordenes_Fabricacion[Date]), max(Cabecera_Ordenes_Fabricacion[Date])),",
+                    "    \"Id_Fecha\", FORMAT( [Date], \"YYYYMMDD\" ),",
+                    "    \"Año\", YEAR ( [Date] ),",
+                    "    \"Mes\", MONTH ( [Date] ),",
+                    "    \"Día\", DAY ( [Date] ),",
+                    "    \"Mes Nombre\", FORMAT ( [Date], \"MMMM\" ),",
+                    "    \"Período\", FORMAT( [Date], \"YYYY\" & \"-\"  & \"MM\" )",
+                    "    )"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Detalle_Ordenes_Fabricacion",
+            "columns": [
+              {
+                "name": "ID_DIMORDENFABRICACION",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "ID_DIMORDENFABRICACION"
+              },
+              {
+                "name": "ID_DIMARTICULO",
+                "dataType": "string",
+                "isHidden": true,
+                "sourceColumn": "ID_DIMARTICULO"
+              },
+              {
+                "name": "Consumo Real",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Consumo Real"
+              },
+              {
+                "name": "Consumo Estandar",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Consumo Estandar"
+              },
+              {
+                "name": "Valor Consumo Real USD",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Consumo Real USD"
+              },
+              {
+                "name": "Valor Consumo Estandar USD",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Consumo Estandar USD"
+              },
+              {
+                "name": "Horas Real",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Horas Real"
+              },
+              {
+                "name": "Horas Estandar",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Horas Estandar"
+              },
+              {
+                "name": "Cod Articulo",
+                "dataType": "string",
+                "sourceColumn": "Cod Articulo",
+                "displayFolder": "Articulos"
+              },
+              {
+                "name": "Articulo",
+                "dataType": "string",
+                "sourceColumn": "Articulo",
+                "displayFolder": "Articulos"
+              },
+              {
+                "name": "COD_TIPOARTICULO",
+                "dataType": "string",
+                "isHidden": true,
+                "sourceColumn": "COD_TIPOARTICULO"
+              },
+              {
+                "name": "Tipo Articulo",
+                "dataType": "string",
+                "sourceColumn": "Tipo Articulo",
+                "displayFolder": "Articulos"
+              },
+              {
+                "name": "COD_CLASEARTICULO",
+                "dataType": "string",
+                "isHidden": true,
+                "sourceColumn": "COD_CLASEARTICULO"
+              },
+              {
+                "name": "Clase Articulo",
+                "dataType": "string",
+                "sourceColumn": "Clase Articulo",
+                "displayFolder": "Articulos"
+              },
+              {
+                "name": "Orden Fabricacion",
+                "dataType": "int64",
+                "sourceColumn": "Orden Fabricacion",
+                "summarizeBy": "none"
+              },
+              {
+                "name": "Valor Consumo Real ML",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Consumo Real ML"
+              },
+              {
+                "name": "Valor Consumo Estandar ML",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Consumo Estandar ML"
+              },
+              {
+                "name": "Valor Hs Real ML",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Hs Real ML"
+              },
+              {
+                "name": "Valor Hs Real USD",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Hs Real USD"
+              },
+              {
+                "name": "Valor Hs Estandar ML",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Hs Estandar ML"
+              },
+              {
+                "name": "Valor Hs Estandar USD",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Valor Hs Estandar USD"
+              },
+              {
+                "type": "calculated",
+                "name": "Estado",
+                "dataType": "string",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " RELATED(Cabecera_Ordenes_Fabricacion[Estado])"
+              },
+              {
+                "type": "calculated",
+                "name": "Produccion Real",
+                "dataType": "double",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " RELATED(Cabecera_Ordenes_Fabricacion[Produccion Real])"
+              },
+              {
+                "type": "calculated",
+                "name": "Cod Region",
+                "dataType": "int64",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " RELATED(Cabecera_Ordenes_Fabricacion[COD_REGION_PAIS])"
+              },
+              {
+                "type": "calculated",
+                "name": "Region",
+                "dataType": "string",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": "RELATED(Cabecera_Ordenes_Fabricacion[Region])"
+              },
+              {
+                "type": "calculated",
+                "name": "Para Analisis",
+                "dataType": "boolean",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " if(And(Detalle_Ordenes_Fabricacion[Estado]=\"CERRADO\", Detalle_Ordenes_Fabricacion[Produccion Real]>0), TRUE(), FALSE())",
+                "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+              },
+              {
+                "name": "Agrupador Consumos",
+                "dataType": "string",
+                "sourceColumn": "Agrupador Consumos"
+              },
+              {
+                "type": "calculated",
+                "name": "Hora Real",
+                "dataType": "double",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " if(Detalle_Ordenes_Fabricacion[Articulo]=\"DEP2\",BLANK(), Detalle_Ordenes_Fabricacion[Horas Real])"
+              },
+              {
+                "type": "calculated",
+                "name": "Hora estandar",
+                "dataType": "double",
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "expression": " if(Detalle_Ordenes_Fabricacion[Articulo]=\"DEP2\", BLANK(), Detalle_Ordenes_Fabricacion[Horas Estandar])"
+              },
+              {
+                "name": "Fecha",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "Fecha"
+              },
+              {
+                "name": "COD_REGION_PAIS",
+                "dataType": "int64",
+                "sourceColumn": "COD_REGION_PAIS"
+              },
+              {
+                "name": "Date",
+                "dataType": "dateTime",
+                "isHidden": true,
+                "sourceColumn": "Date"
+              }
+            ],
+            "partitions": [
+              {
+                "name": "Partition",
+                "dataView": "full",
+                "source": {
+                  "type": "m",
+                  "expression": [
+                    "let",
+                    "    Source = #\"SQL/dctdtdb02;PLDW\",",
+                    "    dbo_Detalle_Ord_Fabricacion = Source{[Schema=\"dbo\",Item=\"Detalle_Ord_Fabricacion\"]}[Data],",
+                    "    #\"Personalizada agregada\" = Table.AddColumn(dbo_Detalle_Ord_Fabricacion, \"Date\", each Date.From(Text.From([Fecha], \"en-US\"))),",
+                    "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Personalizada agregada\",{{\"Date\", type date}})",
+                    "in",
+                    "    #\"Tipo cambiado\""
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Metricas",
+            "columns": [
+              {
+                "type": "calculatedTableColumn",
+                "name": "Columna1",
+                "dataType": "int64",
+                "isNameInferred": true,
+                "isDataTypeInferred": true,
+                "isHidden": true,
+                "sourceColumn": "[Columna1]"
+              }
+            ],
+            "partitions": [
+              {
+                "name": "CalculatedTable 1",
+                "source": {
+                  "type": "calculated",
+                  "expression": "ROW( \"Columna1\", BLANK())"
+                }
+              }
+            ],
+            "measures": [
+              {
+                "name": "Cantidad Consumo Estandar",
+                "expression": [
+                  "  sum(Detalle_Ordenes_Fabricacion[Consumo Estandar])",
+                  "\t\t\t\t\t"
+                ],
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Articulos"
+              },
+              {
+                "name": "Cantidad Consumo Real",
+                "expression": "  sum(Detalle_Ordenes_Fabricacion[Consumo Real])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Articulos"
+              },
+              {
+                "name": "Consumo Estandar ML",
+                "expression": "  Sum(Detalle_Ordenes_Fabricacion[Valor Consumo Estandar ML]) + sum(Detalle_Ordenes_Fabricacion[Valor Hs Estandar ML])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Totales"
+              },
+              {
+                "name": "Consumo Real ML",
+                "expression": "  sum(Detalle_Ordenes_Fabricacion[Valor Consumo Real ML]) + sum(Detalle_Ordenes_Fabricacion[Valor Hs Real ML])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Totales"
+              },
+              {
+                "name": "Consumo Real USD",
+                "expression": "  sum(Detalle_Ordenes_Fabricacion[Valor Consumo Real USD]) + sum(Detalle_Ordenes_Fabricacion[Valor Hs Real USD])",
+                "formatString": "#,0.0",
+                "displayFolder": "Consumos\\Totales"
+              },
+              {
+                "name": "Variacion Consumo",
+                "expression": " ([Cantidad Consumo Estandar]+ [Hs Estandar])-([Cantidad Consumo Real] + [Hs Real])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Totales\\Variaciones"
+              },
+              {
+                "name": "Variacion Consumo %",
+                "expression": "   DIVIDE([Variacion Consumo],([Cantidad Consumo Estandar]+ [Hs Estandar]),BLANK())",
+                "formatString": "0.0%;-0.0%;0.0%",
+                "displayFolder": "Consumos\\Totales\\Variaciones"
+              },
+              {
+                "name": "Variacion Consumo ML",
+                "expression": "  [Consumo Estandar ML]-[Consumo Real ML]",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Totales\\Variaciones"
+              },
+              {
+                "name": "Variacion Consumo ML %",
+                "expression": "  DIVIDE([Variacion Consumo ML], [Consumo Estandar ML], BLANK())",
+                "formatString": "0.0%;-0.0%;0.0%",
+                "displayFolder": "Consumos\\Totales\\Variaciones"
+              },
+              {
+                "name": "Hs Estandar",
+                "expression": " sum(Detalle_Ordenes_Fabricacion[Hora Estandar])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Horas"
+              },
+              {
+                "name": "Hs Real",
+                "expression": "  sum(Detalle_Ordenes_Fabricacion[Hora Real])",
+                "formatString": "#,0",
+                "displayFolder": "Consumos\\Horas"
+              },
+              {
+                "name": "Cantidad Produccion Estandar",
+                "expression": "  sum(Cabecera_Ordenes_Fabricacion[Produccion Estandar])",
+                "formatString": "#,0",
+                "displayFolder": "Produccion"
+              },
+              {
+                "name": "Cantidad Produccion Real",
+                "expression": "  sum(Cabecera_Ordenes_Fabricacion[Produccion Real])",
+                "formatString": "#,0",
+                "displayFolder": "Produccion"
+              },
+              {
+                "name": "Cantidad Produccion Real Fardos",
+                "expression": [
+                  "  sum(Cabecera_Ordenes_Fabricacion[Produccion Fardos])",
+                  "\t\t\t\t\t"
+                ],
+                "formatString": "#,0",
+                "displayFolder": "Produccion"
+              },
+              {
+                "name": "Cantidad Produccion Real TM",
+                "expression": [
+                  "  sum(Cabecera_Ordenes_Fabricacion[Produccion Real Toneladas])",
+                  "\t\t\t\t\t"
+                ],
+                "formatString": "#,0",
+                "displayFolder": "Produccion"
+              },
+              {
+                "name": "Variacion Produccion",
+                "expression": "  [Cantidad Produccion Estandar]-[Cantidad Produccion Real]",
+                "formatString": "#,0",
+                "displayFolder": "Produccion\\Variaciones"
+              },
+              {
+                "name": "Variacion Produccion %",
+                "expression": "  DIVIDE([Variacion Produccion], [Cantidad Produccion Estandar], BLANK())",
+                "formatString": "0.0%;-0.0%;0.0%",
+                "displayFolder": "Produccion\\Variaciones"
+              },
+              {
+                "name": "Consumo Real USD TM",
+                "expression": "  DIVIDE([Consumo Real USD],[Cantidad Produccion Real TM],BLANK())",
+                "formatString": "#,0.0",
+                "displayFolder": "Consumos\\Totales"
+              },
+              {
+                "name": "Costo Unitario USD",
+                "expression": " DIVIDE([Consumo Real USD],([Cantidad Consumo Real]+ [Hs Real]),BLANK())*1000",
+                "formatString": "#,0.0",
+                "displayFolder": "Consumos\\Totales"
+              },
+              {
+                "name": "Consumo Real USD TM %",
+                "expression": [
+                  "  ",
+                  "\t\t\tVar Total= CALCULATE([Consumo Real USD TM],ALLSELECTED(Detalle_Ordenes_Fabricacion))",
+                  "\t\t\tReturn DIVIDE( [Consumo Real USD TM],Total, blank())"
+                ],
+                "formatString": "0.0%;-0.0%;0.0%",
+                "displayFolder": "Consumos\\Totales"
+              }
+            ]
+          },
+          {
+            "name": "Cabecera_Ordenes_Fabricacion",
+            "columns": [
+              {
+                "name": "Fecha",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "Fecha"
+              },
+              {
+                "name": "ID_DIMORDENFABRICACION",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "ID_DIMORDENFABRICACION",
+                "summarizeBy": "none"
+              },
+              {
+                "name": "ID_DIMARTICULO",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "ID_DIMARTICULO",
+                "summarizeBy": "none"
+              },
+              {
+                "name": "Produccion Real",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Produccion Real"
+              },
+              {
+                "name": "Produccion Estandar",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Produccion Estandar"
+              },
+              {
+                "name": "Produccion Real Toneladas",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Produccion Real Toneladas"
+              },
+              {
+                "name": "Produccion Fardos",
+                "dataType": "double",
+                "isHidden": true,
+                "sourceColumn": "Produccion Fardos"
+              },
+              {
+                "name": "Cod Centro trabajo",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "Cod Centro trabajo",
+                "displayFolder": "Control"
+              },
+              {
+                "name": "Maquina",
+                "dataType": "string",
+                "sourceColumn": "Maquina",
+                "displayFolder": "Proceso"
+              },
+              {
+                "name": "Proceso",
+                "dataType": "string",
+                "sourceColumn": "Proceso",
+                "displayFolder": "Proceso"
+              },
+              {
+                "name": "Estado",
+                "dataType": "string",
+                "sourceColumn": "Estado",
+                "displayFolder": "Ordenes"
+              },
+              {
+                "name": "Orden Fabricacion",
+                "dataType": "int64",
+                "sourceColumn": "Orden Fabricacion",
+                "displayFolder": "Ordenes",
+                "summarizeBy": "none"
+              },
+              {
+                "name": "Cod Producto",
+                "dataType": "string",
+                "sourceColumn": "Cod Producto",
+                "displayFolder": "Producto"
+              },
+              {
+                "name": "Producto",
+                "dataType": "string",
+                "sourceColumn": "Producto",
+                "displayFolder": "Producto"
+              },
+              {
+                "name": "Instalacion",
+                "dataType": "string",
+                "sourceColumn": "Instalacion",
+                "displayFolder": "Datos Geograficos"
+              },
+              {
+                "name": "Pais",
+                "dataType": "string",
+                "sourceColumn": "Pais",
+                "displayFolder": "Datos Geograficos"
+              },
+              {
+                "name": "Cod Tipo Producto",
+                "dataType": "string",
+                "isHidden": true,
+                "sourceColumn": "Cod Tipo Producto",
+                "displayFolder": "Producto"
+              },
+              {
+                "name": "Tipo Producto",
+                "dataType": "string",
+                "sourceColumn": "Tipo Producto",
+                "displayFolder": "Producto"
+              },
+              {
+                "name": "Cod Clase Producto",
+                "dataType": "string",
+                "isHidden": true,
+                "sourceColumn": "Cod Clase Producto"
+              },
+              {
+                "name": "Clase Producto",
+                "dataType": "string",
+                "sourceColumn": "Clase Producto",
+                "displayFolder": "Producto"
+              },
+              {
+                "name": "COD_REGION_PAIS",
+                "dataType": "int64",
+                "isHidden": true,
+                "sourceColumn": "COD_REGION_PAIS"
+              },
+              {
+                "type": "calculated",
+                "name": "Region",
+                "dataType": "string",
+                "isDataTypeInferred": true,
+                "expression": [
+                  "  SWITCH(Cabecera_Ordenes_Fabricacion[COD_REGION_PAIS],",
+                  "\t\t\t\t\t1, \"Andina\",",
+                  "\t\t\t\t\t7, \"CentroAmerica\",",
+                  "\t\t\t\t\t6,\" Caribe\")"
+                ],
+                "displayFolder": "Datos Geograficos"
+              },
+              {
+                "type": "calculated",
+                "name": "Para analisis",
+                "dataType": "boolean",
+                "isDataTypeInferred": true,
+                "expression": " if(And(Cabecera_Ordenes_Fabricacion[Estado]=\"CERRADO\", Cabecera_Ordenes_Fabricacion[Produccion Real]>0), TRUE(), FALSE())",
+                "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+              },
+              {
+                "name": "Date",
+                "dataType": "dateTime",
+                "sourceColumn": "Date"
+              }
+            ],
+            "partitions": [
+              {
+                "name": "Partition",
+                "dataView": "full",
+                "source": {
+                  "type": "m",
+                  "expression": [
+                    "let",
+                    "    Source = #\"SQL/dctdtdb02;PLDW\",",
+                    "    dbo_Cabecera_Ord_Fabricacion = Source{[Schema=\"dbo\",Item=\"Cabecera_Ord_Fabricacion\"]}[Data],",
+                    "    #\"Personalizada agregada\" = Table.AddColumn(dbo_Cabecera_Ord_Fabricacion, \"Date\", each Date.From(Text.From([Fecha], \"en-US\"))),",
+                    "    #\"Tipo cambiado\" = Table.TransformColumnTypes(#\"Personalizada agregada\",{{\"Date\", type date}})",
+                    "in",
+                    "    #\"Tipo cambiado\""
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "relationships": [
+          {
+            "name": "9446816a-b48d-4868-8c18-de0ef869d094",
+            "fromTable": "Detalle_Ordenes_Fabricacion",
+            "fromColumn": "ID_DIMORDENFABRICACION",
+            "toTable": "Cabecera_Ordenes_Fabricacion",
+            "toColumn": "ID_DIMORDENFABRICACION"
+          },
+          {
+            "name": "4b924e8a-44af-4da5-a537-1fe8fe28d1bb",
+            "fromTable": "Cabecera_Ordenes_Fabricacion",
+            "fromColumn": "Fecha",
+            "toTable": "Calendario",
+            "toColumn": "Id_Fecha"
+          }
+        ],
+        "roles": [
+          {
+            "name": "Acceso_Total",
+            "modelPermission": "readRefresh",
+            "tablePermissions": [
+              {
+                "name": "Detalle_Ordenes_Fabricacion",
+                "filterExpression": "Detalle_Ordenes_Fabricacion[Para Analisis]=TRUE()"
+              }
+            ]
+          },
+          {
+            "name": "Region_CentroAmerica",
+            "modelPermission": "read",
+            "members": [
+              {
+                "memberName": "PAPELESLATINOS\\RE_Reporting_PowerBI_CostoProduccion",
+                "memberId": "S-1-5-21-1853903947-1388564490-1507863309-90718"
+              }
+            ]
+          },
+          {
+            "name": "Region_Andina",
+            "modelPermission": "read",
+            "tablePermissions": [
+              {
+                "name": "Detalle_Ordenes_Fabricacion",
+                "filterExpression": "Detalle_Ordenes_Fabricacion[Para Analisis]=TRUE()&&Detalle_Ordenes_Fabricacion[Region]=\"Andina\""
+              }
+            ]
+          },
+          {
+            "name": "Region_Caribe",
+            "modelPermission": "read",
+            "tablePermissions": [
+              {
+                "name": "Detalle_Ordenes_Fabricacion",
+                "filterExpression": "Detalle_Ordenes_Fabricacion[Para Analisis]=TRUE()&&Detalle_Ordenes_Fabricacion[Region]=\"Caribe\""
+              }
+            ]
+          },
+          {
+            "name": "Admin",
+            "modelPermission": "administrator",
+            "members": [
+              {
+                "memberName": "PAPELESLATINOS\\esteban.otero.ext",
+                "memberId": "S-1-5-21-1853903947-1388564490-1507863309-89914"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "ClientCompatibilityLevel",
+            "value": "600"
+          }
+        ]
+      }
+    }
+  }
+}

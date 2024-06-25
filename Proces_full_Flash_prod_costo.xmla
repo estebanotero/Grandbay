@@ -1,0 +1,10 @@
+{
+  "refresh": {
+    "type": "full",
+    "objects": [
+      {
+        "database": "Flash_Prod_Costo"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+
+Select  aux.ID_DIMORDENFABRICACION
+	   ,aux.ID_DIMARTICULO
+	   ,b.COD_ORDEN_FABRICACION as Orden_fabricacion
+	   ,c.cod_articulo
+	   ,CONCAT(b.COD_ORDEN_FABRICACION,'-',c.cod_articulo) Articulo_orden  
+
+From (select ID_DIMORDENFABRICACION 
+			,ID_DIMARTICULO
+	FROM operaciones.FACT_CONSUMO_REAL_DIA
+	GROUP BY ID_DIMORDENFABRICACION, ID_DIMARTICULO) aux
+
+left join [maestro].[DIMORDENFABRICACION] b		on b.ID_DIMORDENFABRICACION= aux.ID_DIMORDENFABRICACION
+Left join [maestro].[DIMARTICULO] c				on c.ID_DIMARTICULO= aux.ID_DIMARTICULO 
+Where b.COD_REGION_PAIS= 7
+
+						
